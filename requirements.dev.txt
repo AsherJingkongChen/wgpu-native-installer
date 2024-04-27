@@ -1,3 +1,4 @@
+black
 pip
 setuptools
 wheel

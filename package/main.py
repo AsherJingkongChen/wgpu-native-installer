@@ -20,6 +20,12 @@ async def main_async() -> None:
 
     payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")
     data = parse_release_latest(payload)
-    
+
     pprint(data)
+
+    from io import StringIO
     
+    fp = StringIO()
+    data.assets[0].write_json(fp, 2)
+    print(fp.closed, fp.getvalue())
+    print(data.to_json(2))

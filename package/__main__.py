@@ -1,4 +1,4 @@
 from sys import exit
-from .main import main_wrapped
+from . import main_wrapped
 
 exit(main_wrapped())

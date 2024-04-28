@@ -17,15 +17,17 @@ def main() -> None:
 async def main_async() -> None:
     from pprint import pprint
     from .github_release.functions import get_release_latest, parse_release_latest
+    from .github_release.objects import GitHubReleaseData
 
     payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")
     data = parse_release_latest(payload)
 
-    pprint(data)
+    pprint(payload, sort_dicts=False)
+    pprint(data, sort_dicts=False)
 
     from io import StringIO
-    
+
     fp = StringIO()
-    data.assets[0].write_json(fp, 2)
+    print(data.assets[0].to_json(fp, indent=2))
     print(fp.closed, fp.getvalue())
-    print(data.to_json(2))
+    print(GitHubReleaseData.from_json(data.to_json(indent=2)).to_json(indent=2))

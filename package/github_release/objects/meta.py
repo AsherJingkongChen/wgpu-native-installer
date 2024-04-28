@@ -6,7 +6,6 @@ from typing import TextIO
 
 from ...common.objects import JSON
 
-
 @dataclass
 class GitHubReleaseMeta(JSON):
     """
@@ -23,13 +22,13 @@ class GitHubReleaseMeta(JSON):
     "`application/vnd.github+json` `Release.tag_name`"
 
     time: str
-    "`application/vnd.github+json` `Release.published_at`"
+    "`application/vnd.github+json` `Release.published_at` or `Release.created_at`"
 
     url_html: str
     "`application/vnd.github+json` `Release.html_url`"
 
     note: str
-    "`application/vnd.github+json` `Release.body`"
+    "`application/vnd.github+json` `Release.body` or `\"\"`"
 
     def __str__(self):
         pass

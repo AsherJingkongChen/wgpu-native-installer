@@ -24,7 +24,7 @@ class GitHubReleaseAsset(JSON):
     "`application/vnd.github+json` `Release.size`"
 
     type: str
-    "`application/vnd.github+json` `Release.type`"
+    "`application/vnd.github+json` `Release.content_type`"
 
     def __str__(self):
         pass

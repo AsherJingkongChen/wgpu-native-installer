@@ -23,9 +23,9 @@ def parse_release_latest(payload: dict[str]) -> GitHubReleaseData:
         meta=GitHubReleaseMeta(
             url_api=payload["url"],
             name=payload["tag_name"],
-            time=payload["created_at"],
+            time=payload.get("published_at", payload["created_at"]),
             url_html=payload["html_url"],
-            note=payload["body"],
+            note=payload.get("body", ""),
         ),
         assets=[
             GitHubReleaseAsset(

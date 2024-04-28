@@ -20,7 +20,10 @@ class GitHubReleaseData(JSON):
     """
 
     meta: GitHubReleaseMeta
+    "Metadata"
+
     assets: list[GitHubReleaseAsset]
+    "Assets"
 
     def __str__(self):
         pass

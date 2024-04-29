@@ -9,7 +9,6 @@ from ...common.functions import get_human_readable_byte_size
 from ...common.objects import JSON
 from ...common.objects import Markdown
 
-
 @dataclass
 class GitHubReleaseAsset(JSON, Markdown):
     """
@@ -21,7 +20,7 @@ class GitHubReleaseAsset(JSON, Markdown):
 
     url_api: str
     "`application/vnd.github+json` `ReleaseAsset.url`"
-    
+
     url_download: str
     "`application/vnd.github+json` `ReleaseAsset.browser_download_url`"
 

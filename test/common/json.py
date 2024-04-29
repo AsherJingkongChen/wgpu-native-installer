@@ -1,11 +1,9 @@
 from dataclasses import dataclass, is_dataclass
 from package.common.objects import JSON
 
-
 @dataclass
 class Inner(JSON):
     inner_value: str
-
 
 @dataclass
 class Outer(JSON):
@@ -16,12 +14,10 @@ class Outer(JSON):
         if not is_dataclass(self.inner):
             self.inner = Inner(**self.inner)
 
-
 @dataclass
 class Simple(JSON):
     flag: bool
     none: None
-
 
 def test_to_json_from_json_equal():
     source = Outer(inner=Inner("label"), outer_value=3.14)
@@ -29,10 +25,11 @@ def test_to_json_from_json_equal():
     result_from = Outer.from_json(result_to)
     result_from_to = result_from.to_json()
 
-    assert result_to == '{"inner": {"inner_value": "label"}, "outer_value": 3.14}'
+    assert (
+        result_to == '{"inner": {"inner_value": "label"}, "outer_value": 3.14}'
+    )
     assert result_from == source
     assert result_from_to == result_to
-
 
 def test_to_json_targets_equal():
     from tempfile import NamedTemporaryFile
@@ -59,7 +56,6 @@ def test_to_json_targets_equal():
 
     assert result_none == result_path_str
     assert result_none == result_txio_str
-
 
 def test_indent_diff():
     source = Simple(flag=True, none=None)

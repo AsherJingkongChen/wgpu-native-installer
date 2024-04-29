@@ -5,7 +5,6 @@ from typing import TextIO, Type, TypeVar
 
 _T = TypeVar("_T")
 
-
 class JSON:
     """
     Basic JSON (de)serialization

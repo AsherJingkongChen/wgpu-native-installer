@@ -1,6 +1,5 @@
 from ..objects import GitHubReleaseData
 
-
 async def get_release_latest(owner: str, repo: str) -> dict[str]:
     from httpx import AsyncClient
 
@@ -14,7 +13,6 @@ async def get_release_latest(owner: str, repo: str) -> dict[str]:
                 },
             )
         ).json()
-
 
 def parse_release_latest(payload: dict[str]) -> GitHubReleaseData:
     from ..objects import GitHubReleaseAsset, GitHubReleaseMeta

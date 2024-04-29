@@ -8,7 +8,6 @@ from .meta import GitHubReleaseMeta
 from ...common.objects import JSON
 from ...common.objects import Markdown
 
-
 @dataclass
 class GitHubReleaseData(JSON, Markdown):
     """
@@ -36,7 +35,9 @@ class GitHubReleaseData(JSON, Markdown):
         ]
 
     def to_markdown(self) -> str:
-        assets = "".join([f"| {asset.to_markdown()} |\n" for asset in self.assets])
+        assets = "".join(
+            [f"| {asset.to_markdown()} |\n" for asset in self.assets]
+        )
         return f"""\
 {self.meta.to_markdown()}
 

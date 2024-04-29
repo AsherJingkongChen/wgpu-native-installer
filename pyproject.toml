@@ -1,0 +1,9 @@
+[tool.black]
+line-length = 80
+pyi = true
+
+[tool.pytest.ini_options]
+addopts = "-rs"
+testpaths = [
+    "test/**/*.py",
+]

@@ -6,7 +6,6 @@ from typing import TextIO
 
 from ...common.objects import JSON
 
-
 @dataclass
 class GitHubReleaseMeta(JSON):
     """

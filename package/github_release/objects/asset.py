@@ -28,7 +28,7 @@ class GitHubReleaseAsset(JSON, Markdown):
     name: str
     "`application/vnd.github+json` `ReleaseAsset.name`"
 
-    size: str
+    size: int
     "`application/vnd.github+json` `ReleaseAsset.size`"
 
     type: str

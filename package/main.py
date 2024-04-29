@@ -18,13 +18,20 @@ async def main_async() -> None:
     from pprint import pprint
     from pathlib import Path
     from .github_release.functions import get_release_latest, parse_release_latest
-    from .github_release.objects import GitHubReleaseData
+    from .github_release.objects import GitHubReleaseAsset, GitHubReleaseData
 
     payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")
     data = parse_release_latest(payload)
 
     Path("output.md").write_text(data.to_markdown())
     asset = data.search_assets(r"linux-aarch64-release\.zip$")[0]
-
-    async for _ in asset.download("output.zip"):
+    print(asset.to_json(indent=2))
+    asset = GitHubReleaseAsset(
+        url_api="",
+        url_download="https://raw.githubusercontent.com/AsherJingkongChen/wgpu-native-installer/main/README.md",
+        name="",
+        size=0,
+        type="",
+    )
+    async for _ in asset.download("test.md"):
         pass

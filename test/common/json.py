@@ -23,47 +23,50 @@ class Simple(JSON):
     none: None
 
 
-def test_to_json_from_json():
+def test_to_json_from_json_equal():
     source = Outer(inner=Inner("label"), outer_value=3.14)
     result_to = source.to_json()
     result_from = Outer.from_json(result_to)
     result_from_to = result_from.to_json()
-    
+
     assert result_to == '{"inner": {"inner_value": "label"}, "outer_value": 3.14}'
     assert result_from == source
     assert result_from_to == result_to
 
 
-def test_to_json_targets():
+def test_to_json_targets_equal():
     from tempfile import NamedTemporaryFile
     from io import StringIO
-    
+
+    source = Simple(flag=True, none=None)
     strfile = StringIO()
     tempfile = NamedTemporaryFile(mode="w+")
 
-    result_none = Simple(flag=True, none=None).to_json(target=None)
+    result_none = source.to_json(target=None)
 
-    result_path = Simple(flag=True, none=None).to_json(target=tempfile.name)
+    result_path = source.to_json(target=tempfile.name)
     tempfile.seek(0)
     result_path_str = tempfile.read()
     tempfile.close()
 
-    result_txio = Simple(flag=True, none=None).to_json(target=strfile)
+    result_txio = source.to_json(target=strfile)
     result_txio_str = strfile.getvalue()
     strfile.close()
 
     assert type(result_none) is str
     assert result_path is None
     assert result_txio is None
-    
+
     assert result_none == result_path_str
     assert result_none == result_txio_str
 
 
 def test_indent_diff():
-    result_level_n = Simple(flag=True, none=None).to_json(indent=None)
-    result_level_0 = Simple(flag=True, none=None).to_json(indent=0)
-    result_level_2 = Simple(flag=True, none=None).to_json(indent=2)
+    source = Simple(flag=True, none=None)
+
+    result_level_n = source.to_json(indent=None)
+    result_level_0 = source.to_json(indent=0)
+    result_level_2 = source.to_json(indent=2)
 
     assert result_level_n == '{"flag": true, "none": null}'
     assert result_level_0 == '{\n"flag": true,\n"none": null\n}'

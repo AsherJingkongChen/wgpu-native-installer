@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ...format.objects import JSON
+from ...format import JSON
 
 @dataclass
 class GitHubReleaseMeta(JSON):

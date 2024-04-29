@@ -5,9 +5,8 @@ from httpx import AsyncClient
 from os import PathLike
 from typing import BinaryIO, AsyncGenerator
 
-from ...common.functions import get_human_readable_byte_size
-from ...format.objects import JSON
-from ...format.objects import Markdown
+from ...common import get_human_readable_byte_size
+from ...format import JSON, Markdown
 
 @dataclass
 class GitHubReleaseAsset(JSON, Markdown):

@@ -22,14 +22,15 @@ def parse_release_latest(payload: dict[str]) -> GitHubReleaseData:
     return GitHubReleaseData(
         meta=GitHubReleaseMeta(
             url_api=payload["url"],
+            url_html=payload["html_url"],
             name=payload["tag_name"],
             time=payload.get("published_at", payload["created_at"]),
-            url_html=payload["html_url"],
             note=payload.get("body", ""),
         ),
         assets=[
             GitHubReleaseAsset(
                 url_api=data["url"],
+                url_download=data["browser_download_url"],
                 name=data["name"],
                 size=data["size"],
                 type=data["content_type"],

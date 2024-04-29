@@ -9,5 +9,6 @@ class Markdown:
     def __str__(self) -> str:
         return self.to_markdown()
 
+    @abstractmethod
     def to_markdown(self) -> str:
         raise NotImplementedError

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from httpx import AsyncClient, Client
 from os import PathLike
-from typing import BinaryIO
-
+from typing import BinaryIO, AsyncGenerator, Generator
 
 from ...common.functions import get_human_readable_byte_size
 from ...common.objects import JSON
@@ -20,25 +20,29 @@ class GitHubReleaseAsset(JSON, Markdown):
     """
 
     url_api: str
-    "`application/vnd.github+json` `Release.url`"
+    "`application/vnd.github+json` `ReleaseAsset.url`"
+    
+    url_download: str
+    "`application/vnd.github+json` `ReleaseAsset.browser_download_url`"
 
     name: str
-    "`application/vnd.github+json` `Release.name`"
+    "`application/vnd.github+json` `ReleaseAsset.name`"
 
     size: str
-    "`application/vnd.github+json` `Release.size`"
+    "`application/vnd.github+json` `ReleaseAsset.size`"
 
     type: str
-    "`application/vnd.github+json` `Release.content_type`"
+    "`application/vnd.github+json` `ReleaseAsset.content_type`"
 
     def to_markdown(self) -> str:
         size = get_human_readable_byte_size(self.size)
-        return f"[{self.name}]({self.url_api}) | `{self.type}` | `{size}`"
+        return f"[{self.name}]({self.url_download}) | `{self.type}` | `{size}`"
 
-    def download(
+    async def download(
         self,
         target: BinaryIO | PathLike | str | None = None,
-    ) -> None | bytes:
+        client: AsyncClient | None = None,
+    ) -> AsyncGenerator[None | bytes]:
         """
         ## Arguments
         - `target`:
@@ -47,9 +51,46 @@ class GitHubReleaseAsset(JSON, Markdown):
                 - A writable binary IO stream (`BinaryIO`)
                 - A writable file path (`PathLike | str`)
                 - `None`
+        - `client`:
+            - Defaults to `None`
+            - It will be used to download the asset if provided
 
         ## Returns
         - Either:
-            - `None` and the content is written to `target`
-            - The content (`bytes`) if `target` is `None`
+            - `AsyncGenerator[None]` and the stream content is written to `target`
+            - The stream content (`AsyncGenerator[bytes]`) if `target` is `None`
         """
+
+        from io import BufferedIOBase, RawIOBase
+        from pathlib import Path
+
+        if client:
+            will_close_client = False
+        else:
+            will_close_client = True
+            client = AsyncClient(http2=True)
+
+        async with client.stream(
+            "GET",
+            self.url_download,
+            follow_redirects=True,
+            headers={"Accept": "application/octet-stream"},
+        ) as response:
+            if target:
+                if isinstance(target, (BufferedIOBase, RawIOBase)):
+                    will_close_target = False
+                else:
+                    will_close_target = True
+                    target = Path(target).open("wb")
+
+                async for chunk in response.aiter_bytes():
+                    target.write(chunk)
+
+                if will_close_target:
+                    target.close()
+            else:
+                async for chunk in response.aiter_bytes():
+                    yield chunk
+
+        if will_close_client:
+            await client.aclose()

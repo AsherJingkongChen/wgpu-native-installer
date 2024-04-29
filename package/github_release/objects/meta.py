@@ -19,14 +19,14 @@ class GitHubReleaseMeta(JSON):
     url_api: str
     "`application/vnd.github+json` `Release.url`"
 
+    url_html: str
+    "`application/vnd.github+json` `Release.html_url`"
+
     name: str
     "`application/vnd.github+json` `Release.tag_name`"
 
     time: str
     "`application/vnd.github+json` `Release.published_at` or `Release.created_at`"
-
-    url_html: str
-    "`application/vnd.github+json` `Release.html_url`"
 
     note: str
     '`application/vnd.github+json` `Release.body` or `""`'
@@ -34,6 +34,6 @@ class GitHubReleaseMeta(JSON):
     def to_markdown(self) -> str:
         return f"""\
 # Release [{self.name}]({self.url_html})
-> {self.time}
+> `{self.time}`
 
 {self.note}"""

@@ -46,7 +46,7 @@ class GitHubReleaseData(JSON, Markdown):
 | ---- | ---- | ---- |
 {assets}"""
 
-    def find_assets(
+    def search_assets(
         self, name: str | Pattern[str] | None = None
     ) -> list[GitHubReleaseAsset]:
         from re2 import search

@@ -12,7 +12,6 @@ def main() -> None:
     return run(main_async())
 
 async def main_async() -> None:
-    from pprint import pprint
     from pathlib import Path
     from .github_release.functions import (
         get_release_latest,

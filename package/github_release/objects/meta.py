@@ -6,6 +6,7 @@ from typing import TextIO
 
 from ...common.objects import JSON
 
+
 @dataclass
 class GitHubReleaseMeta(JSON):
     """
@@ -28,18 +29,11 @@ class GitHubReleaseMeta(JSON):
     "`application/vnd.github+json` `Release.html_url`"
 
     note: str
-    "`application/vnd.github+json` `Release.body` or `\"\"`"
-
-    def __str__(self):
-        pass
+    '`application/vnd.github+json` `Release.body` or `""`'
 
     def to_markdown(self) -> str:
         return f"""\
-## [Release {self.name}]({self.url_html})
+# Release [{self.name}]({self.url_html})
 > {self.time}
 
-{self.note}
-"""
-
-    def write_markdown(self, target: TextIO | PathLike | str) -> None:
-        pass
+{self.note}"""

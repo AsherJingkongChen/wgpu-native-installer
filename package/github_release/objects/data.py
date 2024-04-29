@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from os import PathLike
-from typing import TextIO
 
 from .asset import GitHubReleaseAsset
 from .meta import GitHubReleaseMeta
 from ...common.objects import JSON
+from ...common.objects import Markdown
 
 
 @dataclass
-class GitHubReleaseData(JSON):
+class GitHubReleaseData(JSON, Markdown):
     """
     GitHub Release Data
 
@@ -35,11 +34,13 @@ class GitHubReleaseData(JSON):
             for asset in self.assets
         ]
 
-    def __str__(self):
-        pass
-
     def to_markdown(self) -> str:
-        pass
+        assets = "".join([f"| {asset.to_markdown()} |\n" for asset in self.assets])
+        return f"""\
+{self.meta.to_markdown()}
 
-    def write_markdown(self, target: TextIO | PathLike | str) -> None:
-        pass
+## Assets
+
+| Name | Type | Size |
+| ---- | ---- | ---- |
+{assets}"""

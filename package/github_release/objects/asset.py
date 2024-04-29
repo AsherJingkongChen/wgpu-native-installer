@@ -1,12 +1,14 @@
-from dataclasses import dataclass
-from os import PathLike
-from typing import TextIO
+from __future__ import annotations
 
+from dataclasses import dataclass
+
+from ...common.functions import get_human_readable_byte_size
 from ...common.objects import JSON
+from ...common.objects import Markdown
 
 
 @dataclass
-class GitHubReleaseAsset(JSON):
+class GitHubReleaseAsset(JSON, Markdown):
     """
     GitHub Release Asset
 
@@ -26,11 +28,6 @@ class GitHubReleaseAsset(JSON):
     type: str
     "`application/vnd.github+json` `Release.content_type`"
 
-    def __str__(self):
-        pass
-
     def to_markdown(self) -> str:
-        pass
-
-    def write_markdown(self, target: TextIO | PathLike | str) -> None:
-        pass
+        size = get_human_readable_byte_size(self.size)
+        return f"[{self.name}]({self.url_api}) | `{self.type}` | `{size}`"

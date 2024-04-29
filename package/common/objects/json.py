@@ -1,21 +1,23 @@
 from __future__ import annotations
 
 from os import PathLike
-from typing import TextIO
+from typing import TextIO, Type, TypeVar
+
+_T = TypeVar("_T")  # , bound='C')
 
 
 class JSON:
     """
-    Basic object with basic JSON (de)serialization
+    Basic JSON (de)serialization
     """
 
     @classmethod
     def from_json(
-        cls,
+        cls: Type[_T],
         literal: str | None = None,
         *,
         source: PathLike | str | TextIO | None = None,
-    ) -> JSON:
+    ) -> _T:
         """
         ## Arguments
         - `literal`: (`str | None`)
@@ -36,7 +38,9 @@ class JSON:
         from pathlib import Path
 
         if (literal is None) is (source is None):
-            raise ValueError("Either `literal` or `source` must be provided (eXclusive OR)")
+            raise ValueError(
+                "Either `literal` or `source` must be provided (eXclusive OR)"
+            )
         if literal is not None:
             return cls(**loads(literal))
         if source is not None:

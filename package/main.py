@@ -30,4 +30,7 @@ async def main_async() -> None:
     fp = StringIO()
     print(data.assets[0].to_json(fp, indent=2))
     print(fp.closed, fp.getvalue())
-    print(GitHubReleaseData.from_json(data.to_json(indent=2)).to_json(indent=2))
+    pprint(data)
+    r_data = GitHubReleaseData.from_json(data.to_json(indent=2))
+    pprint(r_data)
+    print(r_data.to_json(indent=2))

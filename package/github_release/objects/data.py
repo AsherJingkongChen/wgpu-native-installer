@@ -25,6 +25,16 @@ class GitHubReleaseData(JSON):
     assets: list[GitHubReleaseAsset]
     "Assets"
 
+    def __post_init__(self) -> None:
+        from dataclasses import is_dataclass
+
+        if not is_dataclass(self.meta):
+            self.meta = GitHubReleaseMeta(**self.meta)
+        self.assets = [
+            GitHubReleaseAsset(**asset) if not is_dataclass(asset) else asset
+            for asset in self.assets
+        ]
+
     def __str__(self):
         pass
 

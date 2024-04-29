@@ -34,7 +34,12 @@ class GitHubReleaseMeta(JSON):
         pass
 
     def to_markdown(self) -> str:
-        pass
+        return f"""\
+## [Release {self.name}]({self.url_html})
+> {self.time}
+
+{self.note}
+"""
 
     def write_markdown(self, target: TextIO | PathLike | str) -> None:
         pass

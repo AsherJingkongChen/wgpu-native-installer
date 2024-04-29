@@ -1,34 +1,45 @@
 from package.github_release.objects import GitHubReleaseAsset
 from pytest import mark
 
+source_download = GitHubReleaseAsset(
+    url_api="",
+    url_download="https://raw.githubusercontent.com/AsherJingkongChen/wgpu-native-installer/main/README.md",
+    name="",
+    size=0,
+    type="",
+)
 
-def test_download_client_not_closed():
-    pass
+@mark.asyncio
+async def test_download_client_not_closed():
+    from httpx import AsyncClient
 
+    client = AsyncClient()
+    async for _ in source_download.download(client=client):
+        pass
+    assert not client.is_closed
 
 @mark.asyncio
 async def test_download_equal():
     from tempfile import NamedTemporaryFile
     from io import BytesIO
 
-    source = GitHubReleaseAsset(
-        url_api="",
-        url_download="https://raw.githubusercontent.com/AsherJingkongChen/wgpu-native-installer/main/README.md",
-        name="",
-        size=0,
-        type="",
-    )
     bytefile = BytesIO()
     tempfile = NamedTemporaryFile(mode="w+b")
 
-    result_none = b"".join([d async for d in source.download(target=None)])
+    result_none = b"".join(
+        [d async for d in source_download.download(target=None)]
+    )
 
-    result_path = b"".join([d async for d in source.download(target=tempfile.name)])
+    result_path = b"".join(
+        [d async for d in source_download.download(target=tempfile.name)]
+    )
     tempfile.seek(0)
     result_path_str = tempfile.read()
     tempfile.close()
 
-    result_byio = b"".join([d async for d in source.download(target=bytefile)])
+    result_byio = b"".join(
+        [d async for d in source_download.download(target=bytefile)]
+    )
     result_byio_str = bytefile.getvalue()
     bytefile.close()
 

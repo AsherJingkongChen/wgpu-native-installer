@@ -37,18 +37,26 @@ class JSON:
         from json import load, loads
         from pathlib import Path
 
-        if (literal is None) is (source is None):
+        if (not literal) == (not source):
             raise ValueError(
-                "Either `literal` or `source` must be provided (eXclusive OR)"
+                "Either `literal` or `source` must be provided (exclusive or)"
             )
-        if literal is not None:
-            return cls(**loads(literal))
-        if source is not None:
-            if isinstance(target, TextIOBase):
-                return cls(**load(source))
+
+        if literal:
+            result = cls(**loads(literal))
+        if source:
+            if not isinstance(source, TextIOBase):
+                will_close_source = False
             else:
-                with Path(source).open("r") as target:
-                    return cls(**load(source))
+                will_close_source = True
+                source = Path(source).open("r")
+
+            result = cls(**load(source))
+
+            if will_close_source:
+                source.close()
+
+        return result
 
     def to_json(
         self,
@@ -82,10 +90,17 @@ class JSON:
         else:
             data = self
 
-        if target is None:
-            return dumps(data, indent=indent)
-        elif isinstance(target, TextIOBase):
-            return dump(data, target, indent=indent)
+        if target:
+            if not isinstance(target, TextIOBase):
+                target = Path(target).open("w")
+                will_close_target = True
+            else:
+                will_close_target = False
+
+            result = dump(data, target, indent=indent)
+            if will_close_target:
+                target.close()
         else:
-            with Path(target).open("w") as target:
-                return dump(data, target, indent=indent)
+            result = dumps(data, indent=indent)
+
+        return result

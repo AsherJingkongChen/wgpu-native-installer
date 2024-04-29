@@ -56,8 +56,8 @@ class GitHubReleaseAsset(JSON, Markdown):
 
         ## Returns
         - Either:
-            - `AsyncGenerator[None]` and the stream content is written to `target`
-            - The stream content (`AsyncGenerator[bytes]`) if `target` is `None`
+            - (`AsyncGenerator[None]`) and the stream content is written to `target`
+            - (`AsyncGenerator[bytes]`), the stream content if `target` is `None`
         """
 
         from io import BufferedIOBase, RawIOBase

@@ -19,7 +19,7 @@ class JSON:
     ) -> _T:
         """
         ## Arguments
-        - `literal`: (`str | None`)
+        - `literal`:
             - Defaults to `None`
         - `source`:
             - Defaults to `None`
@@ -70,13 +70,13 @@ class JSON:
                 - A writable text IO stream (`TextIO`)
                 - A writable file path (`PathLike | str`)
                 - `None`
-        - `indent`: (`int | None`)
+        - `indent`:
             - Defaults to `None`
 
         ## Returns
         - Either:
-            - `None` and the JSON text is written to `target`
-            - A JSON text (`str`) if `target` is `None`
+            - (`None`) and the JSON text is written to `target`
+            - (`str`), a JSON text if `target` is `None`
         """
 
         from dataclasses import asdict, is_dataclass

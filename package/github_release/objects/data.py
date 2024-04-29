@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from re import Pattern
+from typing import Pattern
 
 from .asset import GitHubReleaseAsset
 from .meta import GitHubReleaseMeta
@@ -48,11 +48,22 @@ class GitHubReleaseData(JSON, Markdown):
 {assets}"""
 
     def search_assets(
-        self, name: str | Pattern[str] | None = None
+        self,
+        name: str | Pattern[str] | None = None,
     ) -> list[GitHubReleaseAsset]:
+        """
+        ## Arguments
+        - `name`:
+            - Defaults to `None`
+
+        ## Returns
+        - (`list[GitHubReleaseAsset]`)
+            - Assets with names matching the pattern
+            - All assets if `name` is `None`
+        """
         from re2 import search
 
-        if name is None:
+        if name:
+            return [asset for asset in self.assets if search(name, asset.name)]
+        else:
             return self.assets
-
-        return [asset for asset in self.assets if search(name, asset.name)]

@@ -28,4 +28,5 @@ async def main_async() -> None:
 
     async for t in async_stream_unzip(asset.download()):
         print(t[0].decode(), t[1])
-        async for _ in t[-1]: pass
+        async for _ in t[-1]:
+            pass

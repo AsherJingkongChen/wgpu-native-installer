@@ -26,3 +26,4 @@ async def main_async() -> None:
     pprint(r_data)
     print(4, r_data, file=open("output.md", "w"))
     print(5, r_data.to_json(indent=2))
+    pprint(r_data.find_assets(r"release\.zip$"))

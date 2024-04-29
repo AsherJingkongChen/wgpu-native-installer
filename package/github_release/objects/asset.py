@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from httpx import AsyncClient, Client
+from httpx import AsyncClient
 from os import PathLike
-from typing import BinaryIO, AsyncGenerator, Generator
+from typing import BinaryIO, AsyncGenerator
 
 from ...common.functions import get_human_readable_byte_size
-from ...common.objects import JSON
-from ...common.objects import Markdown
+from ...format.objects import JSON
+from ...format.objects import Markdown
 
 @dataclass
 class GitHubReleaseAsset(JSON, Markdown):

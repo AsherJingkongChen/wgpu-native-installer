@@ -5,8 +5,8 @@ from re import Pattern
 
 from .asset import GitHubReleaseAsset
 from .meta import GitHubReleaseMeta
-from ...common.objects import JSON
-from ...common.objects import Markdown
+from ...format.objects import JSON
+from ...format.objects import Markdown
 
 @dataclass
 class GitHubReleaseData(JSON, Markdown):

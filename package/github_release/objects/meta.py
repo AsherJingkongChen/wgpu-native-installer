@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from os import PathLike
-from typing import TextIO
 
-from ...common.objects import JSON
+from ...format.objects import JSON
 
 @dataclass
 class GitHubReleaseMeta(JSON):

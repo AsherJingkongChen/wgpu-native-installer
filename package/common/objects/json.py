@@ -3,7 +3,7 @@ from __future__ import annotations
 from os import PathLike
 from typing import TextIO, Type, TypeVar
 
-_T = TypeVar("_T")  # , bound='C')
+_T = TypeVar("_T")
 
 
 class JSON:
@@ -67,7 +67,7 @@ class JSON:
             - Defaults to `None`
 
         ## Returns
-        - It is either:
+        - Either:
             - `None` and the JSON text is written to `target`
             - A JSON text (`str`) if `target` is `None`
         """

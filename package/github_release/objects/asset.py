@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from os import PathLike
+from typing import BinaryIO
+
 
 from ...common.functions import get_human_readable_byte_size
 from ...common.objects import JSON
@@ -31,3 +34,22 @@ class GitHubReleaseAsset(JSON, Markdown):
     def to_markdown(self) -> str:
         size = get_human_readable_byte_size(self.size)
         return f"[{self.name}]({self.url_api}) | `{self.type}` | `{size}`"
+
+    def download(
+        self,
+        target: BinaryIO | PathLike | str | None = None,
+    ) -> None | bytes:
+        """
+        ## Arguments
+        - `target`:
+            - Defaults to `None`
+            - It is either:
+                - A writable binary IO stream (`BinaryIO`)
+                - A writable file path (`PathLike | str`)
+                - `None`
+
+        ## Returns
+        - Either:
+            - `None` and the content is written to `target`
+            - The content (`bytes`) if `target` is `None`
+        """

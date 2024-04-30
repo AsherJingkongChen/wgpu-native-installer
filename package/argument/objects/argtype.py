@@ -19,7 +19,7 @@ class ArgType:
         result = arg.lower()
 
         if result.startswith("cygwin"):
-            result = "windows"  
+            result = "windows"
         elif result.startswith("darwin"):
             result = "macos"
         elif result.startswith("linux"):

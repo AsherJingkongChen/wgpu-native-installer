@@ -22,7 +22,7 @@ async def main_async() -> None:
     from .github_release import get_release_latest, parse_release_latest
     from .zip_extract import extract_filter
     from .argument import argparser
-    
+
     argparser.print_help()
     print(argparser.parse_args())
     return

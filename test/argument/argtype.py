@@ -60,7 +60,6 @@ def test_system_matching():
             return ArgType.system(value)
         except ValueError:
             return None
-
     # It's not linux compatible
     assert system_wrapped("l") == None
     assert system_wrapped("aix") == None
@@ -98,7 +97,7 @@ def test_system_matching():
     assert system_wrapped("MacOS X") == "macos"
     assert system_wrapped("Mac OS X") == "macos"
     assert system_wrapped("Macintosh") == "macos"
-    
+
     # It's not windows compatible
     assert system_wrapped("w") == None
     assert system_wrapped("min") == None
@@ -106,7 +105,7 @@ def test_system_matching():
     assert system_wrapped("wondins") == None
     assert system_wrapped("wimdoms") == None
     assert system_wrapped("xp") == None
-    
+
     # It's windows compatible
     assert system_wrapped("cygwin") == "windows"
     assert system_wrapped("Cygwin") == "windows"

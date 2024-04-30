@@ -105,6 +105,7 @@ def test_system_matching():
     assert system_wrapped("won") == None
     assert system_wrapped("wondins") == None
     assert system_wrapped("wimdoms") == None
+    assert system_wrapped("xp") == None
     
     # It's windows compatible
     assert system_wrapped("cygwin") == "windows"

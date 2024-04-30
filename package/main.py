@@ -21,6 +21,11 @@ async def main_async() -> None:
     from pathlib import Path
     from .github_release import get_release_latest, parse_release_latest
     from .zip_extract import extract_filter
+    from .argument import argparser
+    
+    argparser.print_help()
+    print(argparser.parse_args())
+    return
 
     payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")
     data = parse_release_latest(payload)

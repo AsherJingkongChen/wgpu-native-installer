@@ -21,14 +21,23 @@ async def main_async() -> None:
     from pathlib import Path
     from .github_release import get_release_latest, parse_release_latest
     from .zip_extract import extract_filter
-    from .argument import argparser, get_asset_name_pattern
+    from .argument import argparser, get_asset_name_pattern, get_library_name_pattern
 
     argparser.print_help()
     parsed_args = argparser.parse_args()
     asset_pat = get_asset_name_pattern(parsed_args)
+    lib_pat = get_library_name_pattern(parsed_args)
 
-    print(asset_pat.search("wgpu-macos-aarch64-release.zip"))
     print(parsed_args)
+    print(asset_pat.search("wgpu-macos-aarch64-debug.zip"))
+    print(lib_pat.search("libwgpu_native.dylib"))
+    print(lib_pat.search("libwgpu_native.so"))
+    print(lib_pat.search("libwgpu_native.dll"))
+    print(lib_pat.search("libwgpu_native.dll.lib"))
+    print(lib_pat.search("libwgpu_native.a"))
+    print(lib_pat.search("libwgpu_native.lib"))
+    print(lib_pat.search("libwgpu_native.pdb"))
+    print(lib_pat.search("wgpu.h"))
     return
 
     payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")

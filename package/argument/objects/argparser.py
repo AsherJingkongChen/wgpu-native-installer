@@ -47,7 +47,6 @@ argparser.add_argument(
         The library types to include in the artifacts.
         They default to `dynamic`.
     """,
-    action="extend",
     choices=["dynamic", "static"],
     default=["dynamic"],
     nargs="+",

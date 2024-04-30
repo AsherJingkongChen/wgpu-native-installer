@@ -1,5 +1,5 @@
 from dataclasses import dataclass, is_dataclass
-from package.format.objects import JSON
+from package.format import JSON
 
 @dataclass
 class Inner(JSON):

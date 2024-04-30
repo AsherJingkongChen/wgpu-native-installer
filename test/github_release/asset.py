@@ -1,5 +1,5 @@
-from package.github_release.objects import GitHubReleaseAsset
 from pytest import mark
+from package.github_release import GitHubReleaseAsset
 
 source_download = GitHubReleaseAsset(
     url_api="",

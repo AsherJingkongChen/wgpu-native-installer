@@ -3,12 +3,20 @@ from platform import machine, system
 
 from .argtype import ArgType
 
-argparser = ArgumentParser()
+argparser = ArgumentParser(
+    prog="wgpu_native_installer",
+)
+
+argparser.add_argument(
+    "-V",
+    "--version",
+    action="version",
+    version=f"wgpu-native-installer 0.0.0",
+)
 
 argparser.add_argument(
     "-m",
     "--machine",
-    metavar="Machine_Type",
     help="""
         The type of machine.
         It is similar to `uname -m` but more generic.
@@ -22,7 +30,6 @@ argparser.add_argument(
 argparser.add_argument(
     "-s",
     "--system",
-    metavar="System_Name",
     help="""
         The name of system or kernel.
         It is similar to `uname -s` but more generic.
@@ -34,9 +41,26 @@ argparser.add_argument(
 )
 
 argparser.add_argument(
+    "-l",
+    "--library",
+    help="""
+        The library types to include in the artifacts.
+        They default to `dynamic`.
+    """,
+    action="extend",
+    choices=["dynamic", "static"],
+    default=["dynamic"],
+    nargs="+",
+)
+
+argparser.add_argument(
     "-g",
     "--debug",
     action="store_true",
-    help="Include debug information in the artifacts.",
+    help="""
+        The flag to specify whether to include
+        debug information in the artifacts.
+        It defaults to `False`.
+    """,
     default=False,
 )

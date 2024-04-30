@@ -21,10 +21,14 @@ async def main_async() -> None:
     from pathlib import Path
     from .github_release import get_release_latest, parse_release_latest
     from .zip_extract import extract_filter
-    from .argument import argparser
+    from .argument import argparser, get_asset_name_pattern
 
     argparser.print_help()
-    print(argparser.parse_args())
+    parsed_args = argparser.parse_args()
+    asset_pat = get_asset_name_pattern(parsed_args)
+
+    print(asset_pat.search("wgpu-macos-aarch64-release.zip"))
+    print(parsed_args)
     return
 
     payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")

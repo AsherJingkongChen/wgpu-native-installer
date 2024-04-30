@@ -5,11 +5,11 @@ class ArgType:
     def machine(arg: str) -> Literal["aarch64", "i686", "x86_64"]:
         from re2 import match
 
-        if match(r"^(?:arm(?:v8|v9|64)|aarch64)\w*$", arg):
+        if match(r"(?:arm(?:v8|v9|64)|aarch64)\w*$", arg):
             return "aarch64"
-        elif match(r"^(?:(?:i[3-6]|x)86)$", arg):
+        elif match(r"(?:(?:i[3-6]|x)86)$", arg):
             return "i686"
-        elif match(r"^(?:(?:amd|x(?:86_)?)64)$", arg):
+        elif match(r"(?:(?:amd|x(?:86_)?)64)$", arg):
             return "x86_64"
         else:
             raise ValueError(f"Unsupported machine type: {arg}")

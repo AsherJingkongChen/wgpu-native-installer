@@ -23,8 +23,8 @@ async def main_async() -> None:
     asset = data.search_assets(r"linux-a.*-debug\.zip$")[0]
 
     async for name, data in extract_filter(
-        asset.download(),
+        asset.download(show_progress=True),
         "zip-extract-output",
-        # name=r".*\.(?:h|dylib)$",
+        name=r".*\.(?:h|dylib)$",
     ):
         print(name, data[:20])

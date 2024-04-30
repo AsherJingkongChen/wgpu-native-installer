@@ -40,6 +40,7 @@ class GitHubReleaseAsset(JSON, Markdown):
         self,
         target: BinaryIO | PathLike | str | None = None,
         client: AsyncClient | None = None,
+        show_progress: bool | None = None,
     ) -> AsyncGenerator[None | bytes]:
         """
         ## Arguments
@@ -52,6 +53,9 @@ class GitHubReleaseAsset(JSON, Markdown):
         - `client`:
             - Defaults to `None`
             - It will be used to download the asset if provided
+        - `show_progress`:
+            - Defaults to `None`
+            - A progress bar will be shown if `True`
 
         ## Returns
         - Either:
@@ -61,6 +65,7 @@ class GitHubReleaseAsset(JSON, Markdown):
 
         from io import BufferedIOBase, RawIOBase
         from pathlib import Path
+        from tqdm.auto import tqdm
 
         if client:
             will_close_client = False
@@ -74,6 +79,22 @@ class GitHubReleaseAsset(JSON, Markdown):
             follow_redirects=True,
             headers={"Accept": "application/octet-stream"},
         ) as response:
+
+            progress_bar = tqdm(
+                disable=not show_progress,
+                desc=f"Downloading {self.name}",
+                ascii="         |",
+                colour="blue",
+                dynamic_ncols=True,
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1 << 10,
+                mininterval=.2,
+                miniters=0,
+                smoothing=0,
+                total=self.size,
+            )
+
             if target:
                 if isinstance(target, (BufferedIOBase, RawIOBase)):
                     will_close_target = False
@@ -83,12 +104,17 @@ class GitHubReleaseAsset(JSON, Markdown):
 
                 async for chunk in response.aiter_bytes():
                     target.write(chunk)
+                    progress_bar.update(len(chunk))
 
                 if will_close_target:
                     target.close()
             else:
                 async for chunk in response.aiter_bytes():
                     yield chunk
+                    progress_bar.update(len(chunk))
+
+            progress_bar.close()
 
         if will_close_client:
             await client.aclose()
+

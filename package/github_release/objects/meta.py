@@ -19,6 +19,12 @@ class GitHubReleaseMeta(JSON):
     url_html: str
     "`application/vnd.github+json` `Release.html_url`"
 
+    owner: str
+    "The path parameter `owner` of `Get a release`"
+
+    repo: str
+    "The path parameter `repo` of `Get a release`"
+
     name: str
     "`application/vnd.github+json` `Release.tag_name`"
 
@@ -30,7 +36,8 @@ class GitHubReleaseMeta(JSON):
 
     def to_markdown(self) -> str:
         return f"""\
-# Release [{self.name}]({self.url_html})
-> `{self.time}`
+# {self.owner} / {self.repo} / release / [{self.name}]({self.url_html})
+
+> *`{self.time}`*
 
 {self.note}"""

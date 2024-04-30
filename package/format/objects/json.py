@@ -20,9 +20,9 @@ class JSON:
         """
         ## Arguments
         - `literal`:
-            - Defaults to `None`
+            - It defaults to `None`
         - `source`:
-            - Defaults to `None`
+            - It defaults to `None`
             - It is either:
                 - A readable text IO stream (`TextIO`)
                 - A readable file path (`PathLike | str`)
@@ -65,13 +65,13 @@ class JSON:
         """
         ## Arguments
         - `target`:
-            - Defaults to `None`
+            - It defaults to `None`
             - It is either:
                 - A writable text IO stream (`TextIO`)
                 - A writable file path (`PathLike | str`)
                 - `None`
         - `indent`:
-            - Defaults to `None`
+            - It defaults to `None`
 
         ## Returns
         - Either:

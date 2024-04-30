@@ -71,4 +71,4 @@ def get_library_name_pattern(parsed_args: Namespace) -> Pattern[str]:
     # Combine all suffixes
     suffixes: str = "|".join(suffixes)
 
-    return compile(fr"\.(?:{suffixes})$")
+    return compile(rf"\.(?:{suffixes})$")

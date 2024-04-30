@@ -14,12 +14,12 @@ async def extract_filter(
     - `source`:
         - An async iterable of zip file chunks
     - `target`:
-        - Defaults to `None`
+        - It defaults to `None`
         - It is either:
             - A directory path (`PathLike | str`)
             - `None`
     - `name`:
-        - Defaults to `None`
+        - It defaults to `None`
 
     ## Returns
     - Extracted assets with names matching the pattern

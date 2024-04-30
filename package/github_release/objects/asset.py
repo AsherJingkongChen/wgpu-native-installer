@@ -34,7 +34,7 @@ class GitHubReleaseAsset(JSON, Markdown):
 
     def to_markdown(self) -> str:
         size = get_human_readable_byte_size(self.size)
-        return f"[{self.name}]({self.url_download}) | `{self.type}` | `{size}`"
+        return f"[{self.name}]({self.url_download}) | `{size}` | `{self.type}`"
 
     async def download(
         self,
@@ -46,16 +46,16 @@ class GitHubReleaseAsset(JSON, Markdown):
         """
         ## Arguments
         - `target`:
-            - Defaults to `None`
+            - It defaults to `None`
             - It is either:
                 - A writable binary IO stream (`BinaryIO`)
                 - A writable file path (`PathLike | str`)
                 - `None`
         - `client`:
-            - Defaults to `None`
+            - It defaults to `None`
             - It will be used to download the asset if provided
         - `show_progress`:
-            - Defaults to `None`
+            - It defaults to `None`
             - A progress bar will be shown if `True`
 
         ## Returns

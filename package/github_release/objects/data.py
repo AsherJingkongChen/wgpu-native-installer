@@ -42,7 +42,7 @@ class GitHubReleaseData(JSON, Markdown):
 
 ## Assets
 
-| Name | Type | Size |
+| Name | Size | Type |
 | ---- | ---- | ---- |
 {assets}"""
 
@@ -53,7 +53,7 @@ class GitHubReleaseData(JSON, Markdown):
         """
         ## Arguments
         - `name`:
-            - Defaults to `None`
+            - It defaults to `None`
 
         ## Returns
         - (`list[GitHubReleaseAsset]`)

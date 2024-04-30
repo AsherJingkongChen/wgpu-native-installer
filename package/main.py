@@ -19,36 +19,23 @@ def main() -> None:
 
 async def main_async() -> None:
     from pathlib import Path
-    from .github_release import get_release_latest, parse_release_latest
+    from .github_release import parse_release_latest
     from .zip_extract import extract_filter
-    from .argument import argparser, get_asset_name_pattern, get_library_name_pattern
+    from .argument import (
+        argparser,
+        get_asset_name_pattern,
+        get_library_name_pattern,
+    )
 
-    argparser.print_help()
     parsed_args = argparser.parse_args()
-    asset_pat = get_asset_name_pattern(parsed_args)
-    lib_pat = get_library_name_pattern(parsed_args)
 
-    print(parsed_args)
-    print(asset_pat.search("wgpu-macos-aarch64-debug.zip"))
-    print(lib_pat.search("libwgpu_native.dylib"))
-    print(lib_pat.search("libwgpu_native.so"))
-    print(lib_pat.search("libwgpu_native.dll"))
-    print(lib_pat.search("libwgpu_native.dll.lib"))
-    print(lib_pat.search("libwgpu_native.a"))
-    print(lib_pat.search("libwgpu_native.lib"))
-    print(lib_pat.search("libwgpu_native.pdb"))
-    print(lib_pat.search("wgpu.h"))
-    return
-
-    payload = await get_release_latest(owner="gfx-rs", repo="wgpu-native")
-    data = parse_release_latest(payload)
+    data = await parse_release_latest(owner="gfx-rs", repo="wgpu-native")
+    asset = data.search_assets(get_asset_name_pattern(parsed_args))[0]
 
     Path("output.md").write_text(data.to_markdown())
-    asset = data.search_assets(r"linux-a.*-debug\.zip$")[0]
-
-    async for name, data in extract_filter(
+    async for filename, filedata in extract_filter(
         asset.download(show_progress=True),
         "zip-extract-output",
-        name=r".*\.(?:h|dylib)$",
+        name=get_library_name_pattern(parsed_args),
     ):
-        print(name, data[:20])
+        print(filename, filedata[:16] + b" ...")

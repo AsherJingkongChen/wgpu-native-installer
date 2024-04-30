@@ -13,7 +13,7 @@ source_download = GitHubReleaseAsset(
 async def test_download_client_not_closed():
     from httpx import AsyncClient
 
-    client = AsyncClient()
+    client = AsyncClient(http2=True)
     async for _ in source_download.download(client=client):
         pass
     assert not client.is_closed

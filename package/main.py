@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+from package.github_release.objects.meta import GitHubReleaseMeta
+
 def main_wrapped() -> Exception | None:
     try:
         return main()
     except Exception as error:
-        return error
+        if not str(error):
+            error = RuntimeError(
+                "An unknown error has occurred. It might be an network issue."
+            )
+        return error.__repr__()
 
 def main() -> None:
     from asyncio import run

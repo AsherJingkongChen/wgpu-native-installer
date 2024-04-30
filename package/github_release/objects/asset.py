@@ -40,6 +40,7 @@ class GitHubReleaseAsset(JSON, Markdown):
         self,
         target: BinaryIO | PathLike | str | None = None,
         client: AsyncClient | None = None,
+        *,
         show_progress: bool | None = None,
     ) -> AsyncGenerator[None | bytes]:
         """
@@ -89,7 +90,7 @@ class GitHubReleaseAsset(JSON, Markdown):
                 unit="B",
                 unit_scale=True,
                 unit_divisor=1 << 10,
-                mininterval=.2,
+                mininterval=0.2,
                 miniters=0,
                 smoothing=0,
                 total=self.size,
@@ -117,4 +118,3 @@ class GitHubReleaseAsset(JSON, Markdown):
 
         if will_close_client:
             await client.aclose()
-

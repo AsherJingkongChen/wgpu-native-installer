@@ -97,6 +97,7 @@ class JSON:
                 will_close_target = False
 
             result = dump(data, target, indent=indent)
+
             if will_close_target:
                 target.close()
         else:

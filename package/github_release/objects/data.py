@@ -48,7 +48,7 @@ class GitHubReleaseData(JSON, Markdown):
 
     def search_assets(
         self,
-        name: str | Pattern[str] | None = None,
+        name: Pattern[str] | str | None = None,
     ) -> list[GitHubReleaseAsset]:
         """
         ## Arguments
@@ -60,6 +60,7 @@ class GitHubReleaseData(JSON, Markdown):
             - Assets with names matching the pattern
             - All assets if `name` is `None`
         """
+
         from re2 import search
 
         if name:

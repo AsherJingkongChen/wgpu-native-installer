@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from package.github_release.objects.meta import GitHubReleaseMeta
-
 def main_wrapped() -> Exception | None:
     try:
         return main()

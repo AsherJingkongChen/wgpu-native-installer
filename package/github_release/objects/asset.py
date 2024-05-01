@@ -5,8 +5,7 @@ from httpx import AsyncClient
 from os import PathLike
 from typing import BinaryIO, AsyncGenerator
 
-from ...common import get_human_readable_byte_size
-from ...format import JSON, Markdown
+from ...format import JSON, Markdown, get_human_readable_byte_size
 
 @dataclass
 class GitHubReleaseAsset(JSON, Markdown):
@@ -39,8 +38,8 @@ class GitHubReleaseAsset(JSON, Markdown):
     async def download(
         self,
         target: BinaryIO | PathLike | str | None = None,
-        client: AsyncClient | None = None,
         *,
+        client: AsyncClient | None = None,
         show_progress: bool | None = None,
     ) -> AsyncGenerator[None | bytes]:
         """

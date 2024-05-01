@@ -1,7 +1,6 @@
 from argparse import Namespace
-from typing import Pattern
 
-def get_asset_name_pattern(parsed_args: Namespace) -> Pattern[str]:
+def get_asset_name_pattern(parsed_args: Namespace) -> str:
     """
     Get the asset name pattern based on the parsed arguments
 
@@ -13,15 +12,13 @@ def get_asset_name_pattern(parsed_args: Namespace) -> Pattern[str]:
     - The asset file name pattern
     """
 
-    from re2 import compile
-
     machine: str = parsed_args.machine
     mode: str = parsed_args.debug and "debug" or "release"
     system: str = parsed_args.system
 
-    return compile(rf"{system}.{machine}.{mode}\.zip$")
+    return rf"{system}.{machine}.{mode}\.zip$"
 
-def get_library_name_pattern(parsed_args: Namespace) -> Pattern[str]:
+def get_library_name_pattern(parsed_args: Namespace) -> str:
     """
     Get the library name pattern based on the parsed arguments
 
@@ -33,8 +30,6 @@ def get_library_name_pattern(parsed_args: Namespace) -> Pattern[str]:
     - The library file name pattern
         - Header files are always included
     """
-
-    from re2 import compile
 
     debug: bool = parsed_args.debug
     library = set(parsed_args.library)
@@ -71,4 +66,4 @@ def get_library_name_pattern(parsed_args: Namespace) -> Pattern[str]:
     # Combine all suffixes
     suffixes: str = "|".join(suffixes)
 
-    return compile(rf"\.(?:{suffixes})$")
+    return rf"\.(?:{suffixes})$"

@@ -17,13 +17,13 @@ def main() -> None:
 
 async def main_async() -> None:
     from pathlib import Path
-    from .github_release import parse_release_latest
-    from .zip_extract import extract_filter
     from .argument import (
         argparser,
         get_asset_name_pattern,
         get_library_name_pattern,
     )
+    from .github_release import parse_release_latest
+    from .unzip import extract_filter
 
     parsed_args = argparser.parse_args()
 

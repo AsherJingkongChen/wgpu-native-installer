@@ -6,7 +6,7 @@ def main_wrapped() -> Exception | None:
     except Exception as error:
         if not str(error):
             error = RuntimeError(
-                "An unknown error has occurred. It might be an network issue."
+                "An unknown error has occurred. It might be a network issue."
             )
         return error.__repr__()
 

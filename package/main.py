@@ -17,6 +17,7 @@ def main() -> None:
 
 async def main_async() -> None:
     from pathlib import Path
+    from sys import stdout
     from .argument import (
         argparser,
         get_asset_name_pattern,
@@ -26,14 +27,18 @@ async def main_async() -> None:
     from .unzip import extract_filter
 
     parsed_args = argparser.parse_args()
+    outdir: Path = parsed_args.directory
+    verbose: int = parsed_args.verbose
 
     data = await parse_release_latest(owner="gfx-rs", repo="wgpu-native")
     asset = data.search_assets(get_asset_name_pattern(parsed_args))[0]
 
-    Path("output.md").write_text(data.to_markdown())
-    async for filename, filedata in extract_filter(
-        asset.download(show_progress=True),
-        "zip-extract-output",
+    if verbose >= 2:
+        print(data, file=stdout)
+
+    async for _ in extract_filter(
+        source=asset.download(show_progress=verbose >= 1),
+        target=outdir,
         name=get_library_name_pattern(parsed_args),
     ):
-        print(filename, filedata[:16] + b" ...")
+        pass

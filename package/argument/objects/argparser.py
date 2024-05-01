@@ -1,4 +1,6 @@
 from argparse import ArgumentParser
+from os import curdir
+from pathlib import Path
 from platform import machine, system
 
 from .argtype import ArgType
@@ -13,6 +15,19 @@ argparser.add_argument(
     "--version",
     action="version",
     version=f"wgpu-native-installer 0.0.0",
+)
+
+argparser.add_argument(
+    "-d",
+    "--directory",
+    help="""
+        The directory to store the artifacts.
+        
+        It defaults to the current directory.
+    """,
+    metavar="Directory_Path",
+    default=curdir,
+    type=Path,
 )
 
 argparser.add_argument(
@@ -75,4 +90,19 @@ argparser.add_argument(
         It is disabled by default.
     """,
     default=False,
+)
+
+argparser.add_argument(
+    "-v",
+    "--verbose",
+    action="count",
+    help="""
+        The flag to specify the verbosity level.
+        
+        It can be used multiple times to increase the verbosity level.
+        For example, -v is verbose (1), -vv is more verbose (2).
+        
+        It is disabled (0) by default.
+    """,
+    default=0,
 )

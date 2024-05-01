@@ -2,6 +2,32 @@ from __future__ import annotations
 
 from package.argument import ArgType
 
+def test_library_matching():
+    def library_wrapped(value: str) -> str | None:
+        try:
+            return ArgType.library(value)
+        except ValueError:
+            return None
+    # It's not dynamic compatible
+    assert library_wrapped("dyn") == None
+    assert library_wrapped("dll") == None
+    assert library_wrapped("dylib") == None
+    assert library_wrapped("so") == None
+
+    # It's dynamic compatible
+    assert library_wrapped("dynamic") == "dynamic"
+    assert library_wrapped("d") == "dynamic"
+    assert library_wrapped("shared") == "dynamic"
+
+    # It's not static compatible
+    assert library_wrapped("a") == None
+    assert library_wrapped("lib") == None
+
+    # It's static compatible
+    assert library_wrapped("static") == "static"
+    assert library_wrapped("s") == "static"
+    assert library_wrapped("archived") == "static"
+
 def test_machine_matching():
     def machine_wrapped(value: str) -> str | None:
         try:

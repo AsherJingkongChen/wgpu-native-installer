@@ -44,7 +44,7 @@ def get_library_name_pattern(parsed_args: Namespace) -> str:
     # Add suffixes of dynamic or static library
     if "dynamic" in library:
         if system == "linux":
-            suffixes.append(r"so")
+            suffixes.append(r"so(?:\.\d+)*")
         elif system == "macos":
             suffixes.append(r"dylib")
         elif system == "windows":

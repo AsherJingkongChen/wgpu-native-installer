@@ -2,6 +2,19 @@ from typing import Literal
 
 class ArgType:
     @staticmethod
+    def library(arg: str) -> Literal["dynamic", "static"]:
+        result = arg.lower()
+        
+        if result == "dynamic" or result == "d" or result == "shared":
+            result = "dynamic"
+        elif result == "static" or result == "s" or result == "archived":
+            result = "static"
+        else:
+            raise ValueError(f"Unsupported library type: {arg}")
+
+        return result
+
+    @staticmethod
     def machine(arg: str) -> Literal["aarch64", "i686", "x86_64"]:
         from re2 import match
 
@@ -18,21 +31,11 @@ class ArgType:
     def system(arg: str) -> Literal["linux", "macos", "windows"]:
         result = arg.lower()
 
-        if result.startswith("cygwin"):
-            result = "windows"
-        elif result.startswith("darwin"):
-            result = "macos"
-        elif result.startswith("linux"):
+        if result.startswith(("linux",)):
             result = "linux"
-        elif result.startswith("mac"):
+        elif result.startswith(("darwin", "mac")):
             result = "macos"
-        elif result.startswith("mingw"):
-            result = "windows"
-        elif result.startswith("ms"):
-            result = "windows"
-        elif result.startswith("nt"):
-            result = "windows"
-        elif result.startswith("win"):
+        elif result.startswith(("win", "nt", "mingw", "ms", "cygwin")):
             result = "windows"
         else:
             raise ValueError(f"Unsupported system name: {arg}")

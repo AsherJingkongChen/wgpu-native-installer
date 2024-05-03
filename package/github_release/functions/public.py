@@ -1,6 +1,9 @@
-from ..objects import GitHubReleaseData
+from __future__ import annotations
 
-async def get_release_latest(owner: str, repo: str) -> dict[str]:
+from ..objects import GitHubReleaseData
+from typing import Any, Dict
+
+async def get_release_latest(owner: str, repo: str) -> Dict[str, Any]:
     from httpx import AsyncClient
 
     async with AsyncClient(http2=True) as client:
@@ -17,7 +20,7 @@ async def get_release_latest(owner: str, repo: str) -> dict[str]:
 async def parse_release_latest(
     owner: str,
     repo: str,
-    payload: dict[str] | None = None,
+    payload: Dict[str, Any] | None = None,
 ) -> GitHubReleaseData:
     """
     ## Arguments

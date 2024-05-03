@@ -79,7 +79,6 @@ class GitHubReleaseAsset(JSON, Markdown):
             follow_redirects=True,
             headers={"Accept": "application/octet-stream"},
         ) as response:
-
             progress_bar = tqdm(
                 disable=not show_progress,
                 desc=f"Downloading {self.name}",

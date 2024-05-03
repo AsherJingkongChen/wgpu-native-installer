@@ -1,6 +1,4 @@
 [project]
-package_dir={"wgpu_native_installer": "package"}
-package_data={"wgpu_native_installer": ["**/*.py", "**/*.pyi"]}
 authors = [{name = "Asher Jingkong Chen"}]
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -15,20 +13,26 @@ dependencies = [
 description = "Install wgpu-native"
 license = {file = "LICENSE"}
 name = "wgpu-native-installer"
-packages = ["wgpu_native_installer"]
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3"
 version = "0.0.0"
 
 [project.urls]
 Homepage = "https://github.com/AsherJingkongChen/wgpu-native-installer"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 80
 pyi = true
 
 [tool.pytest.ini_options]
-addopts = "-rs"
+addopts = "-s"
 testpaths = [
   "test/**/*.py",
 ]
+
+[tool.setuptools.package-dir]
+wgpu_native_installer = "package"

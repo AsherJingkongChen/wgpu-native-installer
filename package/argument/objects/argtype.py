@@ -4,7 +4,7 @@ class ArgType:
     @staticmethod
     def library(arg: str) -> Literal["dynamic", "static"]:
         result = arg.lower()
-        
+
         if result == "dynamic" or result == "d" or result == "shared":
             result = "dynamic"
         elif result == "static" or result == "s" or result == "archived":

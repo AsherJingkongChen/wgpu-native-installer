@@ -4,17 +4,20 @@ from pathlib import Path
 from platform import machine, system
 
 from .argtype import ArgType
+from ... import __version__
 
 argparser = ArgumentParser(
     prog="wgpu_native_installer",
-    epilog="example: %(prog)s --system linux -m x64 -l shared s --debug",
+    epilog="""
+        example: %(prog)s -vv -d out -s linux -m x64 -g -l d s > out.md
+    """,
 )
 
 argparser.add_argument(
     "-V",
     "--version",
     action="version",
-    version=f"wgpu-native-installer 0.0.0",
+    version=__version__,
 )
 
 argparser.add_argument(

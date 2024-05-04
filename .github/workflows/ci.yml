@@ -55,7 +55,7 @@ jobs:
 
       - id: "install-dependencies"
         name: "Install Dependencies"
-        run: |
+        run:
           python -m pip
           install
           --disable-pip-version-check

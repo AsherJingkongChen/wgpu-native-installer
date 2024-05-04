@@ -60,19 +60,19 @@ Choose one of the following methods. It depends on your requirements.
    git clone https://github.com/AsherJingkongChen/wgpu-native-installer.git
    ```
 
-   ```python
-   from asyncio import run
-   from wgpu_native_installer.github_release import parse_release_latest
-   from wgpu_native_installer.unzip import extract_filter
+    ```python
+    from asyncio import run
+    from wgpu_native_installer.github_release import parse_release_latest
 
-   async def main_async():
-       release = await parse_release_latest("pytorch", "pytorch")
-       asset = release.search_assets(r".*\.tar\.gz")
-       await asset.download("pytorch-latest.tar.gz")
+    async def main_async():
+        release = await parse_release_latest("pytorch", "pytorch")
+        asset = release.search_assets(r".*\.tar\.gz")[0]
+        async for _ in asset.download("pytorch-latest.tar.gz", show_progress=True):
+            pass
 
-   if __name__ == "__main__":
-       run(main_async())
-   ```
+    if __name__ == "__main__":
+        run(main_async())
+    ```
 
 ## Details
 

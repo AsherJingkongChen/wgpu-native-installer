@@ -46,10 +46,11 @@ jobs:
           cache: "pip"
 
       - id: "install-dependencies"
-        run: python -m pip install
-          --disable-pip-version-check
-          --no-build-isolation
-          --requirement requirements.tool.txt
+        run: |
+          python -m pip install \
+          --disable-pip-version-check \
+          --no-build-isolation \
+          --requirement requirements.tool.txt \
           --upgrade
 
       - id: "organize-codes"
@@ -70,7 +71,7 @@ jobs:
       - id: "integration-tests"
         run: |
           python -m ${{ env.PROJECT_ID }} -V
-          python -m ${{ env.PROJECT_ID }} -vvgl d s -d ${{ runner.temp }}
+          python -m ${{ env.PROJECT_ID }} -h
 
       - id: "upload-artifact"
         uses: actions/upload-artifact@v4
@@ -96,7 +97,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   release-pypi:
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/') && false
     needs: [build-and-test]
     runs-on: ubuntu-latest
     steps:

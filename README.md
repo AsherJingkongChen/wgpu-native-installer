@@ -46,33 +46,33 @@ Choose one of the following methods. It depends on your requirements.
 
 2. Import the CLI as a package:
 
-   ```python
-   from asyncio import run
-   from wgpu_native_installer import main_async as install_wgpu_native
+    ```python
+    from asyncio import run
+    from wgpu_native_installer import main as install_wgpu_native
 
-   if __name__ == "__main__":
-       run(install_wgpu_native(["-vv", "--library", "dynamic", "static"]))
-   ```
-
-3. Clone the repository and reuse the codes you like:
-
-   ```shell
-   git clone https://github.com/AsherJingkongChen/wgpu-native-installer.git
-   ```
+    if __name__ == "__main__":
+        run(install_wgpu_native(["-vv", "--library", "dynamic", "static"]))
+    ```
 
     ```python
     from asyncio import run
     from wgpu_native_installer.github_release import parse_release_latest
 
-    async def main_async():
+    async def amain():
         release = await parse_release_latest("pytorch", "pytorch")
         asset = release.search_assets(r".*\.tar\.gz")[0]
         async for _ in asset.download("pytorch-latest.tar.gz", show_progress=True):
             pass
 
     if __name__ == "__main__":
-        run(main_async())
+        run(amain())
     ```
+
+3. Clone the repository and reuse the codes you like:
+
+   ```shell
+   git clone https://github.com/AsherJingkongChen/wgpu-native-installer.git
+   ```
 
 ## Details
 

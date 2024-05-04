@@ -3,8 +3,10 @@ from __future__ import annotations
 from typing import Sequence, TextIO
 
 def main_wrapped() -> Exception | None:
+    from asyncio import run
+
     try:
-        return main()
+        return run(main())
     except Exception as error:
         if not str(error):
             error = RuntimeError(
@@ -12,12 +14,7 @@ def main_wrapped() -> Exception | None:
             )
         return error.__repr__()
 
-def main() -> None:
-    from asyncio import run
-
-    return run(main_async())
-
-async def main_async(
+async def main(
     args: Sequence[str] | None = None,
     *,
     owner: str | None = None,

@@ -46,10 +46,10 @@ jobs:
           cache: "pip"
 
       - id: "install-dependencies"
-        run: python -m pip install \
-          --disable-pip-version-check \
-          --no-build-isolation \
-          --requirement requirements.tool.txt \
+        run: python -m pip install
+          --disable-pip-version-check
+          --no-build-isolation
+          --requirement requirements.tool.txt
           --upgrade
 
       - id: "organize-codes"

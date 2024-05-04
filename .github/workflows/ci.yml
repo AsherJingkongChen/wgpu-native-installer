@@ -17,23 +17,20 @@ jobs:
     name: "Build and Test"
     strategy:
       matrix:
+        python:
+          - "3.12"
+          - "3.8"
+        runner:
+          - "macos-13"
+          - "macos-14"
+          - "ubuntu-22.04"
         include:
-          # - python: "3.12"
-          #   runner: "macos-14"
-          # - python: "3.11"
-          #   runner: "macos-14"
-          # - python: "3.10"
-          #   runner: "macos-14"
-          # - python: "3.9"
-          #   runner: "macos-14"
-          # - python: "3.8"
-          #   runner: "macos-14"
-          # - python: "3.8"
-          #   runner: "macos-13"
-          # - python: "3.8"
-          #   runner: "ubuntu-22.04"
-          - python: "3.8"
-            runner: "windows-2022"
+          - python: "3.11"
+            runner: "macos-14"
+          - python: "3.10"
+            runner: "macos-14"
+          - python: "3.9"
+            runner: "macos-14"
     env:
       PROJECT_ID: wgpu_native_installer
     runs-on: ${{ matrix.runner }}
@@ -56,8 +53,7 @@ jobs:
       - id: "install-dependencies"
         name: "Install Dependencies"
         run: >
-          python -m pip
-          install
+          python -m pip install
           --disable-pip-version-check
           --no-build-isolation
           --requirement requirements.tool.txt
@@ -71,14 +67,15 @@ jobs:
 
       - id: "build-wheels"
         name: "Build Wheels"
-        run: |
-          python -m pip wheel --no-build-isolation --wheel-dir dist .
+        run: >
+          python -m pip wheel .
+          --no-build-isolation
+          --wheel-dir dist
 
       - id: "install-wheels"
         name: "Install Wheels"
-        run: >
-          python -m pip
-          install $(python -c 'import pathlib as P; print(" ".join(map(str, P.Path().glob("dist/*"))))')
+        run: |
+          python -m pip install dist/*
 
       - id: "unit-tests"
         name: "Unit Tests"
@@ -95,7 +92,7 @@ jobs:
         name: "Upload Artifact"
         uses: actions/upload-artifact@v4
         with:
-          name: artifact-${{ matrix.runner }}-${{ matrix.python }}
+          name: artifact-${{ matrix.runner }}-python-${{ matrix.python }}
           path: dist/${{ env.PROJECT_ID }}-*.*.*-*.whl
           compression-level: 1
 
@@ -123,7 +120,7 @@ jobs:
 
   release-pypi:
     name: "Release on PyPI"
-    if: startsWith(github.ref, 'refs/tags/') && false
+    if: startsWith(github.ref, 'refs/tags/')
     needs: [build-and-test]
     runs-on: ubuntu-latest
     steps:

@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   build-and-test:
+    name: "Build and Test"
     strategy:
       matrix:
         include:
@@ -34,46 +35,57 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - id: "platform-info"
+        name: "Platform Info"
         run: "echo '${{ matrix.runner }} is running on ${{ runner.os }}-${{ runner.arch }}'"
 
       - id: "checkout"
+        name: "Checkout"
         uses: actions/checkout@v4
 
       - id: "setup-python"
+        name: "Setup Python"
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           cache: "pip"
 
       - id: "install-dependencies"
+        name: "Install Dependencies"
         run: |
-          python -m pip install \
+          python \
+          -m pip \
+          install \
           --disable-pip-version-check \
           --no-build-isolation \
           --requirement requirements.tool.txt \
           --upgrade
 
       - id: "organize-codes"
+        name: "Organize Codes"
         run: |
           python -m isort .
           python -m black .
 
       - id: "build-wheels"
+        name: "Build Wheels"
         run: python -m pip wheel --no-build-isolation --wheel-dir dist .
 
       - id: "install-wheels"
+        name: "Install Wheels"
         run: python -m pip install dist/*
 
       - id: "unit-tests"
-        run: |
-          python -m pytest
+        name: "Unit Tests"
+        run: python -m pytest
 
       - id: "integration-tests"
+        name: "Integration Tests"
         run: |
           python -m ${{ env.PROJECT_ID }} -V
           python -m ${{ env.PROJECT_ID }} -h
 
       - id: "upload-artifact"
+        name: "Upload Artifact"
         uses: actions/upload-artifact@v4
         with:
           name: artifact-${{ matrix.runner }}-${{ matrix.python }}
@@ -81,31 +93,43 @@ jobs:
           compression-level: 1
 
   release-github:
+    name: "Release on GitHub"
     if: startsWith(github.ref, 'refs/tags/')
     needs: [build-and-test]
     permissions:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - id: "download-artifact"
+        name: "Download Artifact"
+        uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
-      - uses: softprops/action-gh-release@v2
+
+      - id: "publish"
+        name: "Publish"
+        uses: softprops/action-gh-release@v2
         with:
           files: dist/*
           token: ${{ secrets.GITHUB_TOKEN }}
 
   release-pypi:
+    name: "Release on PyPI"
     if: startsWith(github.ref, 'refs/tags/') && false
     needs: [build-and-test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - id: "download-artifact"
+        name: "Download Artifact"
+        uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
-      - uses: pypa/gh-action-pypi-publish@release/v1
+
+      - id: "publish"
+        name: "Publish"
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}

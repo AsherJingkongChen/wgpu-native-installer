@@ -26,11 +26,11 @@ jobs:
           - "ubuntu-22.04"
         include:
           - python: "3.11"
-            runner: "macos-14"
+            runner: "ubuntu-22.04"
           - python: "3.10"
-            runner: "macos-14"
+            runner: "ubuntu-22.04"
           - python: "3.9"
-            runner: "macos-14"
+            runner: "ubuntu-22.04"
     env:
       PROJECT_ID: wgpu_native_installer
     runs-on: ${{ matrix.runner }}

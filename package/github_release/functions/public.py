@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from ..objects import GitHubReleaseData
 from typing import Any, Dict
+
+from ..objects import GitHubReleaseData
 
 async def get_release_latest(owner: str, repo: str) -> Dict[str, Any]:
     from httpx import AsyncClient

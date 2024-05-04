@@ -1,4 +1,5 @@
 from dataclasses import dataclass, is_dataclass
+
 from package.format import JSON
 
 @dataclass
@@ -32,8 +33,8 @@ def test_to_json_from_json_equal():
     assert result_from_to == result_to
 
 def test_to_json_targets_equal():
-    from tempfile import NamedTemporaryFile
     from io import StringIO
+    from tempfile import NamedTemporaryFile
 
     source = Simple(flag=True, none=None)
     strfile = StringIO()

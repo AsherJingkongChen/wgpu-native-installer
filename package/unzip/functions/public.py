@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from os import PathLike
-from typing import AsyncIterable, AsyncGenerator, Pattern
+from typing import AsyncGenerator, AsyncIterable, Pattern
 
 async def extract_filter(
     source: AsyncIterable[bytes],
@@ -32,6 +32,7 @@ async def extract_filter(
     """
 
     from pathlib import Path
+
     from re2 import search
     from stream_unzip import async_stream_unzip
 

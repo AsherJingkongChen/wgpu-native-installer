@@ -37,6 +37,7 @@ async def main_async(
 
     from pathlib import Path
     from sys import stdout
+
     from .argument import (
         argparser,
         get_asset_name_pattern,

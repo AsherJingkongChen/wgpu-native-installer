@@ -1,5 +1,6 @@
 black
 build
+isort
 pip
 pytest
 pytest-asyncio

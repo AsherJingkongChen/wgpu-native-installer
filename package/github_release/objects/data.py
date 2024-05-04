@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Pattern
 
+from ...format import JSON, Markdown
 from .asset import GitHubReleaseAsset
 from .meta import GitHubReleaseMeta
-from ...format import JSON, Markdown
 
 @dataclass
 class GitHubReleaseData(JSON, Markdown):

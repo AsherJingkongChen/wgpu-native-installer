@@ -80,8 +80,8 @@ class JSON:
         """
 
         from dataclasses import asdict, is_dataclass
-        from json import dump, dumps
         from io import TextIOBase
+        from json import dump, dumps
         from pathlib import Path
 
         if is_dataclass(self):

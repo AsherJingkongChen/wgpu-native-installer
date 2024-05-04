@@ -32,6 +32,12 @@ Repository = "https://github.com/AsherJingkongChen/wgpu-native-installer.git"
 line-length = 80
 pyi = true
 
+[tool.isort]
+include_trailing_comma = true
+line_length = 80
+lines_after_imports = 1
+multi_line_output = 3
+
 [tool.pytest.ini_options]
 addopts = "-s"
 testpaths = [

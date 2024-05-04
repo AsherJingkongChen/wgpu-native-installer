@@ -3,8 +3,8 @@ from os import curdir
 from pathlib import Path
 from platform import machine, system
 
-from .argtype import ArgType
 from ... import __version__
+from .argtype import ArgType
 
 argparser = ArgumentParser(
     prog="wgpu_native_installer",

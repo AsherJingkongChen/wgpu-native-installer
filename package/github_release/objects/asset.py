@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from httpx import AsyncClient
 from os import PathLike
-from typing import BinaryIO, AsyncGenerator
+from typing import AsyncGenerator, BinaryIO
+
+from httpx import AsyncClient
 
 from ...format import JSON, Markdown, get_human_readable_byte_size
 
@@ -65,6 +66,7 @@ class GitHubReleaseAsset(JSON, Markdown):
 
         from io import BufferedIOBase, RawIOBase
         from pathlib import Path
+
         from tqdm.auto import tqdm
 
         if client:

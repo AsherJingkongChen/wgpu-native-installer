@@ -1,4 +1,5 @@
 from pytest import mark
+
 from package.github_release import GitHubReleaseAsset
 
 source_download = GitHubReleaseAsset(
@@ -20,8 +21,8 @@ async def test_download_client_not_closed():
 
 @mark.asyncio
 async def test_download_equal():
-    from tempfile import NamedTemporaryFile
     from io import BytesIO
+    from tempfile import NamedTemporaryFile
 
     bytefile = BytesIO()
     tempfile = NamedTemporaryFile(mode="w+b")

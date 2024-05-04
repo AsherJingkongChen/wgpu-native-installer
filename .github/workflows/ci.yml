@@ -78,10 +78,7 @@ jobs:
         name: "Install Wheels"
         run: >
           python -m pip
-          install $(
-            python -c
-            'import pathlib as P; print(" ".join(map(str, P.Path().glob("dist/*"))))'
-          )
+          install $(python -c 'import pathlib as P; print(" ".join(map(str, P.Path().glob("dist/*"))))')
 
       - id: "unit-tests"
         name: "Unit Tests"

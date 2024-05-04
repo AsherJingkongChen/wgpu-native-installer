@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from argparse import Namespace
-from typing import TextIO
+from typing import Sequence, TextIO
 
 def main_wrapped() -> Exception | None:
     try:
@@ -19,15 +18,15 @@ def main() -> None:
     return run(main_async())
 
 async def main_async(
+    args: Sequence[str] | None = None,
     *,
-    parsed_args: Namespace | None = None,
     owner: str | None = None,
     repo: str | None = None,
     file_out_data: TextIO | None = None,
 ) -> None:
     """
     ## Arguments
-    - `parsed_args`: It defaults to `.argument.argparser.parse_args()`
+    - `args`: It defaults to `sys.argv[1:]`
     - `owner`: It defaults to `"gfx-rs"`
     - `repo`: It defaults to `"wgpu-native"`
     - `file_out_data`:
@@ -36,7 +35,7 @@ async def main_async(
     """
 
     from pathlib import Path
-    from sys import stdout
+    from sys import argv, stdout
 
     from .argument import (
         argparser,
@@ -46,11 +45,12 @@ async def main_async(
     from .github_release import parse_release_latest
     from .unzip import extract_filter
 
-    parsed_args = parsed_args or argparser.parse_args()
+    args = args or argv[1:]
     owner = owner or "gfx-rs"
     repo = repo or "wgpu-native"
     file_out_data = file_out_data or stdout
 
+    parsed_args = argparser.parse_args(args)
     outdir: Path = parsed_args.directory
     verbose: int = parsed_args.verbose
 
